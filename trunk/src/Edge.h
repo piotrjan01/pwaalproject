@@ -1,6 +1,15 @@
 /*
  * Edge.h
  *
+ * Reprezentuje krawêdŸ w drzewie sufiksowym. Ka¿da krawêdŸ odpowiada pewnemu
+ * fragmentowi tekstu wejœciowego. W tej implementacji przechowujemy indeksy
+ * pocz¹tku i koñca odpowiedniego fragmentu. Oprócz tego krawêdŸ przchowuje
+ * swój wêze³ pocz¹tkowy i wêze³ koñcowy.
+ *
+ * Klasa ta równie¿ posiada niezbêdn¹ metodê split(), która pozwala na podzia³
+ * krawêdzi i dodanie dodatkowego wêz³a w przypadku gdy dodawany sufiks koñczy
+ * siê w tzw. wêŸle niejawnym.
+ *
  *  Created on: 2010-01-07
  *      Author: Piotr Gwizda³a
  */
@@ -34,26 +43,31 @@ public:
 	virtual ~Edge();
 
 	/**
-	 * Kiedy suffix koñczy siê na wêŸle ukrytym, dodanie nowego znaku
-	 * oznacza koniecznoœæ podzia³u krawêdzi, w wyniku czego powstaje
-	 * nowy wêze³.
+	 * Kiedy dodawany suffix koñczy siê na wêŸle niejawnym, dodanie nowego znaku
+	 * oznacza koniecznoœæ podzia³u krawêdzi, w wyniku czego powstaje nowy wêze³.
 	 */
 	Node* split(Suffix *s);
 
-
 	/**
-	 * Dodaje tê krawêdŸ do wêz³a na który wskazuje jej pocz¹tek (startN)
+	 * Zwraca d³ugoœæ tekstu odpowiadaj¹cego tej krawêdzi.
 	 */
-	void insert();
-
-	/**
-	 * Usuwa tê krawêdŸ z wêz³a w którym siê zaczyna
-	 */
-	void remove();
-
 	int getPhraseLength();
 
 	string toString();
+
+private:
+
+	/**
+	 * Dodaje tê krawêdŸ do listy krawêdzi wêz³a na który wskazuje jej pocz¹tek (startN).
+	 * U¿ywane w metodzie split().
+	 */
+	void insertToParentEdgeList();
+
+	/**
+	 * Usuwa tê krawêdŸ z listy krawêdzi wêz³a w którym siê zaczyna. U¿ywane w metodzie split().
+	 */
+	void removeFromParentEdgeList();
+
 
 };
 

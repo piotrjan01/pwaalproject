@@ -15,7 +15,8 @@ using namespace std;
 
 int main() {
 	cout << "Hello World!!!" << endl; // prints Hello World!!!
-	string phrase = "mississippimississippimissingsissippissssppimisssimiiiippssimis";
+	//string phrase = "mississippimississippimissingsissippissssppimisssimiiiippssimis";
+	string phrase = "bananas";
 	PRN1("rozpoczêcie budowy drzewa suffix-owego");
 	VAR1(phrase);
 	SuffixTree st(phrase);

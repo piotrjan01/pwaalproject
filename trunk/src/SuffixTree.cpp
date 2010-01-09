@@ -24,7 +24,7 @@ SuffixTree::SuffixTree(string text) {
 }
 
 SuffixTree::~SuffixTree() {
-	// TODO Auto-generated destructor stub
+	delete this->root;
 }
 
 void SuffixTree::addPrefix(Suffix* activePoint, int endIndex) {
@@ -50,7 +50,7 @@ void SuffixTree::addPrefix(Suffix* activePoint, int endIndex) {
 			edge = activePoint->originNode->findEdge(this->text[endIndex]);
 			if (edge != NULL) {
 				PRN2("break bo edge!=null");
-				CHKSUM("s");
+//				CHKSUM("s");
 				CHKSUM(edge->startInd);
 				break;
 			}
@@ -61,7 +61,7 @@ void SuffixTree::addPrefix(Suffix* activePoint, int endIndex) {
 			int length = activePoint->getPhraseLength();
 			if ( text[edge->startInd + length + 1] == text[endIndex]) {
 				PRN2("break bo znaki w tekst sie zgadzaja");
-				CHKSUM("e");
+//				CHKSUM("e");
 				CHKSUM(edge->endInd);
 				break;
 			}
@@ -78,7 +78,7 @@ void SuffixTree::addPrefix(Suffix* activePoint, int endIndex) {
 		PRN2("continuing with no good edge found");
 
 		newEdge = new Edge(endIndex, this->text.length() - 1, parent);
-		newEdge->insert();
+//		newEdge->insert();
 		this->updateSuffixNode(lastParent, parent);
 		lastParent = parent;
 
@@ -103,7 +103,21 @@ void SuffixTree::updateSuffixNode(Node* node, Node* suffixNode) {
 }
 
 int SuffixTree::getNextId() {
-	// TODO Auto-generated destructor stub
-	return 1;
+	return nodeCount++;
 }
+
+string SuffixTree::toString() {
+	stringstream ss;
+	//ss<<"Suffix: startInd="<<this->startInd<<" endInd="<<this->endInd;
+	return ss.str();
+}
+
+
+
+
+
+
+
+
+
 

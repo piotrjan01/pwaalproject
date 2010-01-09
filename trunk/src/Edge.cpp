@@ -13,38 +13,38 @@ Edge::Edge(int startIndex, int endIndex, Node *startNode) {
 	this->startInd = startIndex;
 	this->endInd = endIndex;
 	this->startN = startNode;
-	this->endN = new Node(startNode->st, NULL);
+	this->endN = new Node(startNode->tree, NULL);
+	this->insertToParentEdgeList();
 }
 
-Edge::~Edge() {}
+Edge::~Edge() {
+	delete this->startN;
+	delete this->endN;
+}
 
 
 Node* Edge::split(Suffix *s) {
-	//usuniêcie krawêdzi z wêz³a-ojca
-	this->remove();
-	//TODO: ?
-	//utworzenie nowej krawêdzi zgodnie z dodawanym sufiksem
+	//usuniêcie tej krawêdzi z wêz³a-ojca
+	this->removeFromParentEdgeList();
+	//utworzenie nowej krawêdzi zgodnie z dodawanym sufiksem (niejawnie powstaje nowy wêze³ - liœæ)
 	Edge* ne = new Edge(this->startInd, this->startInd + s->getPhraseLength(), s->originNode);
-	//dodanie nowej krawêdzi do jej wêz³a-ojca
-	ne->insert();
-	//TODO: ?
+	//ustawienie wskaŸnika na nastêpny mniejszy sufiks w drzewie
 	ne->endN->suffixNode = s->originNode;
-	//wyd³u¿enie zasiêgu tej krawêdzi o now¹ literê
+	//wyciêcie starego pocz¹tku tekstu (teraz jest on na nowej krawêdzi) i dodanie nowego znaku
 	this->startInd += s->getPhraseLength() + 1;
-	//podpiêcie tej krawêdzi do nowopowsta³ej krawêdzi
+	//podpiêcie tej krawêdzi na koniec nowopowsta³ej krawêdzi
 	this->startN = ne->endN;
-	this->insert();
+	this->insertToParentEdgeList();
+	//Zwracany jest nowy wêze³
 	return ne->endN;
 }
 
 
-void Edge::insert() {
-	//PRN2("Inserting the edge to its parent node");
+void Edge::insertToParentEdgeList() {
 	this->startN->addEdge(this->startInd, this);
 }
 
-
-void Edge::remove() {
+void Edge::removeFromParentEdgeList() {
 	this->startN->removeEdge(this->startInd);
 }
 
@@ -54,7 +54,9 @@ int Edge::getPhraseLength() {
 
 string Edge::toString() {
 	stringstream ss;
-	ss<<"Edge: startInd="<<this->startInd<<" endInd="<<this->endInd;
+	string text = startN->tree->text;
+	text = text.substr(this->startInd, (this->endInd < 0 ? text.length() : this->endInd + 1));
+	ss<<this->startN->toString()<<"\t"<<this->endN->toString()<<"\t"<<text;
 	return ss.str();
 }
 

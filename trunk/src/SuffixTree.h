@@ -11,31 +11,52 @@
 #include <string>
 #include "Node.h"
 #include "Suffix.h"
+#include "Object.h"
 
 class Node;
 class Suffix;
 
 using namespace std;
 
-//FIXME: przeportowaæ to do koñca
 
-class SuffixTree {
+class SuffixTree : public Object {
 public:
 
+	/**
+	 * Tekst wejœciowy drzewa sufiksowego
+	 */
 	string text;
+
+	/**
+	 * Korzeñ drzewa
+	 */
 	Node* root;
+
+	/**
+	 * Iloœæ wêz³ów jawnych w drzewie. U¿ywane do przydzielania unikalnych ID wêz³om jawnym.
+	 */
 	int nodeCount;
 
 	SuffixTree(string text);
+
 	virtual ~SuffixTree();
 
+	/**
+	 * Generuje nowe ID dla wêz³ów jawnych
+	 */
 	int getNextId();
 
-	string getText();
-
+	/**
+	 * Dodaje
+	 */
 	void addPrefix(Suffix* active, int endIndex);
 
 	void updateSuffixNode(Node* node, Node* suffixNode);
+
+	std::string toString();
+
+	//zwraca text
+	string getText();
 
 };
 

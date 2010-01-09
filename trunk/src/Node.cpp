@@ -10,13 +10,13 @@
 #include <utility>
 
 Node::Node(SuffixTree* st, Node* suffixNode) {
-	this->st = st;
+	this->tree = st;
 	this->id = st->getNextId();
 	this->suffixNode = suffixNode;
 }
 
 char Node::getCharAt(int ind) {
-	string s = this->st->text;
+	string s = this->tree->text;
 	return s[ind];
 }
 
@@ -32,6 +32,12 @@ Edge* Node::findEdge(char c) {
 	return this->nodeEdges[c];
 }
 
+string Node::toString()  {
+	stringstream ss;
+	ss<<this->id;
+	return ss.str();
+}
 
 Node::~Node() {
+	delete this->suffixNode;
 }
