@@ -6,7 +6,8 @@
  */
 
 #include "Node.h"
-#include <pair.h>
+#include "debug.h"
+#include <utility>
 
 Node::Node(SuffixTree* st, Node* suffixNode) {
 	this->st = st;
@@ -15,12 +16,13 @@ Node::Node(SuffixTree* st, Node* suffixNode) {
 }
 
 char Node::getCharAt(int ind) {
-	string s = this->st->getText();
+	string s = this->st->text;
 	return s[ind];
 }
 
 void Node::addEdge(int charIndex, Edge* edge) {
-	this->nodeEdges.insert(pair<char, Edge*>(this->getCharAt(charIndex), edge));
+	char c = this->getCharAt(charIndex);
+	this->nodeEdges[c] = edge;
 }
 void Node::removeEdge(int charIndex) {
 	this->nodeEdges.erase(this->getCharAt(charIndex));

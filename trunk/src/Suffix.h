@@ -8,16 +8,35 @@
 #ifndef SUFFIX_H_
 #define SUFFIX_H_
 
-//FIXME: przeportowaæ to do koñca
+#include "Node.h"
+#include "Object.h"
+#include <string>
+//FIXME: przeportowaæ to do koñca (metody)
 
-class Suffix {
+class Node;
+
+class Suffix : public Object {
 public:
-	Suffix();
+	Suffix(Node* originNode, int startIndex, int endIndex);
 	virtual ~Suffix();
 
 	int getPhraseLength();
 
-	Node *originNode;
+	Node* originNode;
+
+	int startInd;
+
+	int endInd;
+
+	bool isExplicit();
+
+	bool isImplicit();
+
+	//TODO: ?
+	void canonize();
+
+
+	std::string toString();
 
 };
 

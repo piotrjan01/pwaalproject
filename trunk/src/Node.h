@@ -9,12 +9,25 @@
 #define NODE_H_
 
 #include <map>
+#include <string>
+#include <sstream>
 #include "SuffixTree.h"
+#include "Edge.h"
+#include "Object.h"
+#include "debug.h"
 
 using namespace std;
 
-class Node {
+class Edge;
+class SuffixTree;
+
+class Node : public Object {
 public:
+
+	map<char, Edge*> nodeEdges;
+	SuffixTree *st;
+	int id;
+
 	Node *suffixNode;
 	Node(SuffixTree* st, Node* suffixNode);
 	virtual ~Node();
@@ -25,11 +38,19 @@ public:
 
 	char getCharAt(int ind);
 
+	string toString() {
+		PRN("in toString");
+		stringstream ss;
+		ss<<"Node: id="<<this->id<<" suffixNode="<<this->suffixNode;
+		map<char, Edge*>::iterator it;
+		int i=0;
+		for (it = this->nodeEdges.begin(); it != nodeEdges.end(); it++) {
+			ss << "\t edge "<<++i<<": " << it->first << " => " ;//<< ((Object *)it->second)->toString();
+		}
+		return ss.str();
+	}
 
-private:
-	map<char, Edge> nodeEdges;
-	SuffixTree *st;
-	int id;
+
 
 
 

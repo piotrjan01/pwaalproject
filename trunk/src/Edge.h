@@ -9,19 +9,27 @@
 #define EDGE_H_
 
 #include "Node.h"
+#include "Suffix.h"
+#include "Object.h"
+#include <string>
 
-class Edge {
+class Node;
+class Suffix;
+
+using namespace std;
+
+class Edge : public Object{
 public:
 
 	int startInd;
 	int endInd;
-	Node *startN;
-	Node *endN;
+	Node* startN;
+	Node* endN;
 
 	/**
 	 * Konstruuje i inicjalizuje now¹ krawêdŸ
 	 */
-	Edge(int startIndex, int endIndex, Node *startNode);
+	Edge(int startIndex, int endIndex, Node* startNode);
 
 	virtual ~Edge();
 
@@ -45,6 +53,7 @@ public:
 
 	int getPhraseLength();
 
+	string toString();
 
 };
 
