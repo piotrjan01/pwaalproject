@@ -8,7 +8,6 @@
  */
 
 #include "Node.h"
-#include "../debug.h"
 #include <utility>
 
 Node::Node(SuffixTree* st, Node* suffixNode) {

@@ -8,7 +8,8 @@
  */
 
 #include "SuffixTree.h"
-#include "../debug.h"
+#include <limits.h>
+
 
 using namespace std;
 
@@ -50,14 +51,11 @@ void SuffixTree::addPrefix(int endIndex) {
 	while(true) {
 		parent = activePoint->originNode;
 
-		if (parent != NULL) CHKSUM(parent->id);
-
 		if (activePoint->isExplicit()) { //jeœli dodawany sufiks koñczy siê na wêŸle jawnym
 			//spróbuj znaleŸæ krawêdŸ odpowiadaj¹c¹ nowemu znakowi
 			edge = activePoint->originNode->findEdge(this->text[endIndex]);
 			//jeœli znaleziona, to wychodzimy z pêtli
 			if (edge != NULL) {
-				CHKSUM(edge->startInd);
 				break;
 			}
 		}
@@ -67,7 +65,6 @@ void SuffixTree::addPrefix(int endIndex) {
 			int length = activePoint->getPhraseLength();
 			//jeœli dodajemy znak na koniec krawêdzi, to wyjdŸ z while
 			if ( text[edge->startInd + length + 1] == text[endIndex]) {
-				CHKSUM(edge->startInd);
 				break;
 			}
 			//jeœli nie, to trzeba podzieliæ krawêdŸ

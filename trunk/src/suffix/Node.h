@@ -24,7 +24,6 @@
 #include "SuffixTree.h"
 #include "Edge.h"
 #include "../Object.h"
-#include "../debug.h"
 
 using namespace std;
 
