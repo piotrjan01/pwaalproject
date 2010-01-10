@@ -62,9 +62,14 @@ public:
 	Node *suffixNode;
 
 	/**
+	 * KrawêdŸ, która koñczy siê w tym wêŸle, lub NULL.
+	 */
+	Edge* parentEdge;
+
+	/**
 	 * Konstruktor.
 	 */
-	Node(SuffixTree* st, Node* suffixNode);
+	Node(SuffixTree* st, Node* suffixNode, Edge* parentEdge);
 
 	virtual ~Node();
 
@@ -107,7 +112,7 @@ public:
 	/**
 	 * Ustawia leafCount na odpowiedni¹ wartoœæ w ca³ym poddrzewie
 	 */
-	void updateLeafCount(int allBegin);
+	void updateLeafCount();
 
 	string toString();
 

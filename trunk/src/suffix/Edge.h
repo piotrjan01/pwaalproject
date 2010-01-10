@@ -40,13 +40,6 @@ public:
 	 */
 	int endInd;
 
-	/**
-	 * indeks pocz¹tkowy ca³ego tekstu od korzenia do tej krawêdzi. u¿ywany
-	 * przy znajdywaniu najd³u¿szego tekstu wystêpuj¹cego k-krotnie.
-	 */
-	int allStart;
-
-
 	Node* startN;
 	Node* endN;
 

@@ -9,6 +9,7 @@
 
 #include "SuffixTree.h"
 #include <limits.h>
+#include "../debug.h"
 
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
 SuffixTree::SuffixTree(string text) {
 	this->text = "";
 	this->nodeCount = 0;
-	this->root = new Node(this, NULL);
+	this->root = new Node(this, NULL, NULL);
 	this->activePoint = new Suffix(this->root, 0, -1);
 	this->appendText(text);
 }
@@ -24,7 +25,7 @@ SuffixTree::SuffixTree(string text) {
 SuffixTree::SuffixTree() {
 	this->text = "";
 	this->nodeCount = 0;
-	this->root = new Node(this, NULL);
+	this->root = new Node(this, NULL, NULL);
 	this->activePoint = new Suffix(this->root, 0, -1);
 }
 
@@ -123,16 +124,22 @@ string SuffixTree::toString() {
 
 
 string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
-	root->updateLeafCount(-1);
+	root->updateLeafCount();
 	list<Edge*> edgs = root->getAllEdges();
 	list<Edge*>::iterator it;
 	string ret = "";
 	string s = "";
 	for (it = edgs.begin(); it != edgs.end(); it++) {
 		if ((*it)->endN->leafCount >= k) {
-
 			s = (*it)->getEdgeFullText();
 			if (s.length() > ret.length()) ret = s;
+		/*	PRN("\n\nEdge");
+			VAR((*it)->toString());
+			VAR((*it)->allStart);
+			VAR((*it)->startInd);
+			VAR((*it)->endInd);
+			VAR(s);
+*/
 		}
 	}
 	if (ret == "") return ret;
