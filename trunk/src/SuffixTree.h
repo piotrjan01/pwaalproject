@@ -59,6 +59,8 @@ public:
 
 	Node* getRoot() { return root; }
 
+	string getLongestSubstringWithKRepetitions(int k);
+
 private:
 	/**
 	 * Korzeñ drzewa

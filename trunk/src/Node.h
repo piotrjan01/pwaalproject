@@ -20,6 +20,7 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <list>
 #include "SuffixTree.h"
 #include "Edge.h"
 #include "Object.h"
@@ -42,6 +43,11 @@ public:
 	 * Unikalne id wêz³a u¿ywane do reprezentowania go na wyjœciu.
 	 */
 	int id;
+
+	/**
+	 * U¿ywane do zliczania liœci w poddrzewie danego wêz³a
+	 */
+	int leafCount;
 
 	/**
 	 * Mapa zawieraj¹ca krawêdzie wychodz¹ce z tego wêz³a indeksowane pierwszym
@@ -87,13 +93,22 @@ public:
 	/**
 	 * U¿ywane do prezentacji
 	 */
-	vector<Node*> getAllNodes();
+	list<Node*> getAllNodes();
 
 	/**
 	 * U¿ywane do prezentacji
 	 */
-	vector<Edge*> getAllEdges();
+	list<Edge*> getAllEdges();
 
+	/**
+	 * Zwraca true jeœli dany wêze³ jest liœciem
+	 */
+	bool isLeaf();
+
+	/**
+	 * Ustawia leafCount na odpowiedni¹ wartoœæ w ca³ym poddrzewie
+	 */
+	void updateLeafCount();
 
 	string toString();
 

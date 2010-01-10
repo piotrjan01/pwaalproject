@@ -37,7 +37,7 @@ using namespace std;
 class Dbg {
 public:
 
-	static const int debugLevel = 1;
+	static const int debugLevel = 0;
 
 	static void Dbg::prn(string s)  {
 		cout<<s<<flush;

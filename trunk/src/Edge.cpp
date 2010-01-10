@@ -54,13 +54,21 @@ int Edge::getPhraseLength() {
 	return this->endInd - this->startInd;
 }
 
+string Edge::getEdgeText() {
+	string text = startN->tree->text;
+	int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
+	if (realEnd > (int)text.length()) realEnd = text.length()-1;
+	text = text.substr(this->startInd, realEnd - this->startInd +1);
+	return text;
+}
+
 string Edge::toString() {
 	stringstream ss;
 	string text = startN->tree->text;
 	int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
-	if (realEnd > (int)text.length()) realEnd = text.length();
+	if (realEnd > (int)text.length()) realEnd = text.length()-1;
 	text = text.substr(this->startInd, realEnd - this->startInd +1);
-	ss<<startInd<<"\t"<<endInd<<"\t";
+	ss<<startInd<<"\t"<<realEnd<<"\t";
 	ss<<this->startN->toString()<<"\t"<<this->endN->toString()<<"\t"<<text;
 	return ss.str();
 }

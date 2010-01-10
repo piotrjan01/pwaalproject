@@ -53,6 +53,11 @@ public:
 	 */
 	int getPhraseLength();
 
+	/**
+	 * Zwraca fragment tekstu przy krawêdzi
+	 */
+	string getEdgeText();
+
 	string toString();
 
 private:

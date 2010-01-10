@@ -15,6 +15,7 @@ Node::Node(SuffixTree* st, Node* suffixNode) {
 	this->tree = st;
 	this->id = st->getNextId();
 	this->suffixNode = suffixNode;
+	this->leafCount = 0;
 }
 
 char Node::getCharAt(int ind) {
@@ -36,36 +37,47 @@ Edge* Node::findEdge(char c) {
 
 string Node::toString()  {
 	stringstream ss;
-	ss<<this->id;
+	ss<<this->id;//<<"\t"<<leafCount;
 	return ss.str();
+}
+
+bool Node::isLeaf() {
+	return (nodeEdges.size() == 0);
 }
 
 Node::~Node() {
 	delete this->suffixNode;
 }
 
-vector<Node*> Node::getAllNodes() {
-	vector<Node*> ret;
+void Node::updateLeafCount() {
+	map<char, Edge*>::iterator it;
+	for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
+		if (it->second->endN->isLeaf()) leafCount++;
+		else {
+			it->second->endN->updateLeafCount();
+			leafCount += it->second->endN->leafCount;
+		}
+	}
+}
+
+list<Node*> Node::getAllNodes() {
+	list<Node*> ret;
 	ret.push_back(this);
 	map<char, Edge*>::iterator it;
 	for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
-		vector<Node*> ret2 = it->second->endN->getAllNodes();
-		for (unsigned int i=0; i<ret2.size(); i++) {
-			ret.push_back(ret2.at(i));
-		}
+		list<Node*> ret2 = it->second->endN->getAllNodes();
+		ret.splice(ret.end(), ret2);
 	}
 	return ret;
 }
 
-vector<Edge*> Node::getAllEdges() {
-	vector<Edge*> ret;
+list<Edge*> Node::getAllEdges() {
+	list<Edge*> ret;
 	map<char, Edge*>::iterator it;
 	for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
 		ret.push_back(it->second);
-		vector<Edge*> ret2 = it->second->endN->getAllEdges();
-		for (unsigned int i=0; i<ret2.size(); i++) {
-			ret.push_back(ret2.at(i));
-		}
+		list<Edge*> ret2 = it->second->endN->getAllEdges();
+		ret.splice(ret.end(), ret2);
 	}
 	return ret;
 }

@@ -13,7 +13,10 @@
 using namespace std;
 
 SuffixTree::SuffixTree(string text) {
-	SuffixTree();
+	this->text = "";
+	this->nodeCount = 0;
+	this->root = new Node(this, NULL);
+	this->activePoint = new Suffix(this->root, 0, -1);
 	this->appendText(text);
 }
 
@@ -104,8 +107,54 @@ int SuffixTree::getNextId() {
 
 string SuffixTree::toString() {
 	stringstream ss;
-	//ss<<"Suffix: startInd="<<this->startInd<<" endInd="<<this->endInd;
+	list<Node*> v = this->getRoot()->getAllNodes();
+	ss<<"SuffixTree for: "<<text<<endl;
+	ss<<"Nodes:"<<endl;
+	while ( ! v.empty() ) {
+		ss<<v.front()->toString()<<endl;
+		v.pop_front();
+	}
+
+	list<Edge*> v2 = this->getRoot()->getAllEdges();
+	ss<<"Edges:"<<endl;
+	while ( ! v2.empty() ) {
+			ss<<v2.front()->toString()<<endl;
+			v2.pop_front();
+	}
 	return ss.str();
+}
+
+
+string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
+	root->updateLeafCount();
+	list<Edge*> edgs = root->getAllEdges();
+	list<Edge*> goodEdgs;
+	list<Edge*>::iterator it;
+	//Najpierw znajdujemy wszystkie krawêdzie, które maj¹ >= k liœci w swoim poddrzewie
+	for (it = edgs.begin(); it != edgs.end(); it++) {
+		if ((*it)->endN->leafCount >= k) {
+			goodEdgs.push_back((*it));
+		}
+	}
+	//Jak nie ma takich krawêdzi, to brak wyniku
+	if (goodEdgs.size() == 0) return "";
+	string ret = "";
+	string s = "";
+	Node* lastEndN = root;
+	//Teraz znajdujemy najd³u¿szy ci¹g znaków korzystaj¹c z tego, ¿e
+	//getAllEdges przegl¹da³o drzewo w g³¹b.
+	for (it = goodEdgs.begin(); it != goodEdgs.end(); it++) {
+		if (lastEndN == (*it)->startN) {
+			s += (*it)->getEdgeText();
+		}
+		else {
+			if (s.length() > ret.length()) ret = s;
+			s = (*it)->getEdgeText();;
+		}
+		lastEndN = (*it)->endN;
+	}
+	return ret;
+
 }
 
 
