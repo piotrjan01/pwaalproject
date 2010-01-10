@@ -19,7 +19,7 @@
 
 #include "Node.h"
 #include "Suffix.h"
-#include "Object.h"
+#include "../Object.h"
 #include <string>
 
 class Node;

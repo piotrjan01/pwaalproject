@@ -17,7 +17,7 @@
 #include <vector>
 #include "Node.h"
 #include "Suffix.h"
-#include "Object.h"
+#include "../Object.h"
 
 class Node;
 class Suffix;

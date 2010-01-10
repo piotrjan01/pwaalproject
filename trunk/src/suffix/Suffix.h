@@ -19,7 +19,7 @@
 #define SUFFIX_H_
 
 #include "Node.h"
-#include "Object.h"
+#include "../Object.h"
 #include <string>
 
 class Node;

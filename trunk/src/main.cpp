@@ -19,7 +19,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "SuffixTree.h"
+#include <fstream>
+#include "suffix/SuffixTree.h"
 #include "debug.h"
 
 #define BUFFSIZE 5
@@ -34,48 +35,48 @@ void printUsage();
 
 int main(int argc, char** argv) {
 
-	map<string, bool> argFlags;
-	argFlags["--help"] = argFlags["-h"] = argFlags["-pt"] = argFlags["-lbl"] = false;
-
-	if ((argc < 2) || (argFlags["--help"] == true) || (argFlags["-h"] == true)) {
+	if ((argc != 2 && argc !=3) || (argc==3 && string(argv[2]) != "-pt")) {
 		printUsage();
+		return 1;
+	}
+
+	bool printTree = false;
+	if (argc==3 && string(argv[2]) == "-pt") printTree = true;
+
+	string line;
+	ifstream myfile (argv[1]);
+
+	if (myfile.is_open()) {
+		stringstream ss;
+		char c;
+		int k;
+		myfile>>k;
+		while (! myfile.eof() && myfile>>c) {
+				c = validateChar(c);
+				if (c != 0) ss<<c;
+		}
+		SuffixTree st(ss.str());
+		cout<<st.getLongestSubstringWithKRepetitions(k)<<endl;
+		if (printTree) cout<<st.toString();
+		myfile.close();
 		return 0;
 	}
 
-	int k = atoi(argv[1]);
 
-	for (int i=2; i<argc; i++) {
-		string s(argv[i]);
-		if (argFlags.count(s) == 0) {
-			argFlags["-h"] = true;
-			break;
-		}
-		argFlags[s] = true;
+	else {
+		cout << "Unable to open file: "<<argv[1]<<endl;
+		return 1;
 	}
-
-
-	bool print;
-	if (argFlags["-pt"] == true) print = true;
-	else print = false;
-
-	string s;
-	if (argFlags["-lbl"] == true)
-		s = readLinesOfTextAndMakeTree(print, k);
-	else s = readAllTextAndMakeTree(print, k);
-
-	cout<<s<<endl;
 
 	return 0;
 }
 
 void printUsage() {
 	cout<<"This program finds the longest string with at least k repetitions in input text. "<<endl;
-	cout<<"After calling the program, it waits for an input. The input depends on options."<<endl<<endl;
-	cout<<"Usage: SuffixTree k [-h | --help] [-no] [-lbl]"<<endl;
-	cout<<"Options: "<<endl;
-	cout<<"\t -h, --help \t Prints this help message."<<endl;
-	cout<<"\t -pt \t\t Print tree. Builds the tree and prints it out on screen in reusable form."<<endl;
-	cout<<"\t -lbl \t\t Line by line input mode. The input is read line by line until given EOF or empty line."<<endl;
+	cout<<"\nUsage: SuffixTree <filename>"<<endl;
+	cout<<"\nfilename \tName of the file from which the input will be read. The file should start \n"
+			"\t\twith the single line with integer value - the k parameter. The rest of the file should\n"
+			"\t\tbe the input text. "<<endl;
 	cout<<"\nprogrammed by Piotr Gwizdala"<<endl;
 }
 
@@ -98,7 +99,6 @@ string readLinesOfTextAndMakeTree(bool print, int k) {
 
 string readAllTextAndMakeTree(bool print, int k) {
 	stringstream ss;
-	string s;
 	char c;
 	while (! cin.eof() && cin>>c) {
 		c = validateChar(c);

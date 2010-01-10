@@ -8,7 +8,7 @@
  */
 
 #include "Edge.h"
-#include "debug.h"
+#include "../debug.h"
 #include <sstream>
 
 Edge::Edge(int startIndex, int endIndex, Node *startNode) {
