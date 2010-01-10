@@ -1,6 +1,10 @@
 /*
  * debug.cpp
  *
+ * Klasa sk³adaj¹ca siê z paru prostych makr i funkcji umo¿liwiaj¹cych
+ * wygodne debugowanie bez wzglêdu na u¿ywane IDE. Obs³ugiwane s¹
+ * ró¿ne poziomy debugowania.
+ *
  *  Created on: 2010-01-09
  *      Author: Piotr Gwizda³a
  */

@@ -84,6 +84,17 @@ public:
 	 */
 	char getCharAt(int ind);
 
+	/**
+	 * U¿ywane do prezentacji
+	 */
+	vector<Node*> getAllNodes();
+
+	/**
+	 * U¿ywane do prezentacji
+	 */
+	vector<Edge*> getAllEdges();
+
+
 	string toString();
 
 };

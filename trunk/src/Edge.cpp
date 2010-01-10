@@ -1,6 +1,8 @@
 /*
  * Edge.cpp
  *
+ * Implementacja klasy opisanej w pliku nag³ówkowym
+ *
  *  Created on: 2010-01-07
  *      Author: Piotr Gwizda³a
  */
@@ -55,7 +57,10 @@ int Edge::getPhraseLength() {
 string Edge::toString() {
 	stringstream ss;
 	string text = startN->tree->text;
-	text = text.substr(this->startInd, (this->endInd < 0 ? text.length() : this->endInd + 1));
+	int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
+	if (realEnd > (int)text.length()) realEnd = text.length();
+	text = text.substr(this->startInd, realEnd - this->startInd +1);
+	ss<<startInd<<"\t"<<endInd<<"\t";
 	ss<<this->startN->toString()<<"\t"<<this->endN->toString()<<"\t"<<text;
 	return ss.str();
 }

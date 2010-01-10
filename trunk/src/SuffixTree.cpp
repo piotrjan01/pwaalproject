@@ -1,6 +1,8 @@
 /*
  * SuffixTree.cpp
  *
+ * Implementacja klasy opisanej w pliku nag³ówkowym
+ *
  *  Created on: 2010-01-08
  *      Author: Piotr Gwizda³a
  */
@@ -11,90 +13,84 @@
 using namespace std;
 
 SuffixTree::SuffixTree(string text) {
+	SuffixTree();
+	this->appendText(text);
+}
+
+SuffixTree::SuffixTree() {
+	this->text = "";
 	this->nodeCount = 0;
-	this->text = text;
 	this->root = new Node(this, NULL);
-	PRN2("tworzenie suffixu jako pierwszego punktu aktywnego");
-	Suffix* activePoint = new Suffix(this->root, 0, -1);
-	for (unsigned int i=0; i<text.length(); i++) {
-		PRN2("dodawanie prefixów: ");
-		VAR2(text.substr(0, i+1));
-		this->addPrefix(activePoint, i);
-	}
+	this->activePoint = new Suffix(this->root, 0, -1);
 }
 
 SuffixTree::~SuffixTree() {
 	delete this->root;
 }
 
-void SuffixTree::addPrefix(Suffix* activePoint, int endIndex) {
-	PRN2("in addPrefix");
+
+void SuffixTree::appendText(string t) {
+	if (t == "") return;
+	int oldTextLength = this->text.length();
+	this->text = this->text + t;
+	for (unsigned int i=0; i<t.length(); i++) {
+			this->addPrefix(oldTextLength+i);
+	}
+}
+
+void SuffixTree::addPrefix(int endIndex) {
 	Node* lastParent = NULL;
 	Node* parent = NULL;
 	Edge* edge;
 	Edge* newEdge;
 
 	while(true) {
-		PRN2("\n\nstarting the while loop");
-
-
 		parent = activePoint->originNode;
 
-		//Najpierw próbujemy znaleŸæ krawêdŸ pasuj¹c¹ ju¿ do zadanego wêz³a
-		//Jeœli istnieje, mo¿emy ju¿ zakoñczyæ dodawanie krawêdzi.
-		VAR2(activePoint->startInd);
-		VAR2(activePoint->endInd);
-		if (activePoint->isExplicit()) {
-			PRN2("active point is explicit");
-			VAR2(this->text[endIndex]);
+		if (parent != NULL) CHKSUM(parent->id);
+
+		if (activePoint->isExplicit()) { //jeœli dodawany sufiks koñczy siê na wêŸle jawnym
+			//spróbuj znaleŸæ krawêdŸ odpowiadaj¹c¹ nowemu znakowi
 			edge = activePoint->originNode->findEdge(this->text[endIndex]);
+			//jeœli znaleziona, to wychodzimy z pêtli
 			if (edge != NULL) {
-				PRN2("break bo edge!=null");
-//				CHKSUM("s");
 				CHKSUM(edge->startInd);
 				break;
 			}
 		}
-		else { //punkt aktywny to wêze³ jawny
-			PRN2("active point not explicit");
+		else { //punkt aktywny to wêze³ niejawny, czyli sufiks koñczy siê gdzieœ w krawêdzi
+			//znajdŸ krawêdŸ, w której siê koñczy
 			edge = activePoint->originNode->findEdge(this->text[activePoint->startInd]);
 			int length = activePoint->getPhraseLength();
+			//jeœli dodajemy znak na koniec krawêdzi, to wyjdŸ z while
 			if ( text[edge->startInd + length + 1] == text[endIndex]) {
-				PRN2("break bo znaki w tekst sie zgadzaja");
-//				CHKSUM("e");
-				CHKSUM(edge->endInd);
+				CHKSUM(edge->startInd);
 				break;
 			}
+			//jeœli nie, to trzeba podzieliæ krawêdŸ
 			parent = edge->split(activePoint);
 		}
-
-		/**
-		 * Jeœlni nie znaleŸliœmy odpowiedniej krawêdzi ju¿ w drzewie, to musimy
-		 * stworzyæ now¹ i dodaæ j¹ do drzewa pod wêz³em-ojcem i dodaæ do hash-tablicy.
-		 * Kiedy tworzymy nowy wêze³ oznacza to równie¿, ze musimy stworzyæ nowy suffix-link
-		 * do nowego wêz³a od starego wêz³a który odwiedziliœmy.
-		 */
-
-		PRN2("continuing with no good edge found");
-
-		newEdge = new Edge(endIndex, this->text.length() - 1, parent);
-//		newEdge->insert();
+		//nie znaleziono odpowiedniej krawêdzi, wiêc tworzymy w³asn¹
+		newEdge = new Edge(endIndex, INT_MAX, parent);
+		//uaktualniamy wskaŸnik na nastêpny krótszy sufiks
 		this->updateSuffixNode(lastParent, parent);
+		//zapamiêtujemy ostatniego ojca punktu aktywnego
 		lastParent = parent;
 
-		//W ostatnim kroku przesuwamy siê do nastêpnego najmniejszego suffiksu:
+		//jeœli punkt aktywny jest bezpoœrednio pod korzeniem
 		if (activePoint->originNode == this->root)
-			activePoint->startInd = activePoint->startInd + 1;
+			activePoint->startInd = activePoint->startInd + 1; //jedynie przesuwamy tekst punktu aktywnego
+		//w p.p. idziemy dalej pod¹¿aj¹c za wskaŸnikiem na nastêpny krótszy sufiks
 		else activePoint->originNode = activePoint->originNode->suffixNode;
 		activePoint->canonize();
 	} //while
 
-	PRN2("WYJSCIE z while");
+	//uaktualniamy wskaŸnik na nastêpny krótszy sufiks
 	this->updateSuffixNode(lastParent, parent);
-	activePoint->endInd = activePoint->endInd + 1; //teraz punktem koñcowym jest nastêpny punkt aktywny.
-	VAR2(activePoint);
-	activePoint->canonize();
-	VAR2(activePoint);
+	//przesuwamy koniec tekstu punktu aktywnego do przodu
+	//(tak na prawdê tego znaku mo¿emy jeszcze nie znaæ).
+	activePoint->endInd = activePoint->endInd + 1;
+	activePoint->canonize(); //kanonizujemy
 }
 
 void SuffixTree::updateSuffixNode(Node* node, Node* suffixNode) {
