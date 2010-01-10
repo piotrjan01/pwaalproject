@@ -48,14 +48,21 @@ Node::~Node() {
 	delete this->suffixNode;
 }
 
-void Node::updateLeafCount() {
+void Node::updateLeafCount(int allBegin=-1) {
 	map<char, Edge*>::iterator it;
 	if (isLeaf()) {
 		leafCount = 1;
 		return;
 	}
 	for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
-		it->second->endN->updateLeafCount();
+		if (tree->getRoot() != this) { //jeœli to nie jest root node
+			it->second->allStart = allBegin; //uaktualniamy pocz¹tek ca³ego tekstu krawêdzi
+			it->second->endN->updateLeafCount(allBegin); //kontynuujemy
+		}
+		else { //jeœli to jest root node
+			it->second->allStart = it->second->startInd;
+			it->second->endN->updateLeafCount(it->second->startInd);
+		}
 		leafCount += it->second->endN->leafCount;
 	}
 }

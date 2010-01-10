@@ -107,7 +107,7 @@ public:
 	/**
 	 * Ustawia leafCount na odpowiedni¹ wartoœæ w ca³ym poddrzewie
 	 */
-	void updateLeafCount();
+	void updateLeafCount(int allBegin);
 
 	string toString();
 
