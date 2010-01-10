@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 				c = validateChar(c);
 				if (c != 0) ss<<c;
 		}
-		SuffixTree st(ss.str());
+		SuffixTree st(ss.str()+"$");
 		cout<<st.getLongestSubstringWithKRepetitions(k)<<endl;
 		if (printTree) cout<<st.toString();
 		myfile.close();
