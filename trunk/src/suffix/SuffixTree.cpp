@@ -131,6 +131,7 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
 	for (it = edgs.begin(); it != edgs.end(); it++) {
 		if ((*it)->endN->leafCount >= k) {
 			goodEdgs.push_back((*it));
+			cout<<"Good one: "<<(*it)->toString()<<endl;
 		}
 	}
 	//Jak nie ma takich krawêdzi, to brak wyniku
@@ -150,6 +151,7 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
 		}
 		lastEndN = (*it)->endN;
 	}
+	if (s.length() > ret.length()) ret = s;
 	return ret;
 
 }

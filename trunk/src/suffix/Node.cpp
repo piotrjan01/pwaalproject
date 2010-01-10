@@ -50,12 +50,13 @@ Node::~Node() {
 
 void Node::updateLeafCount() {
 	map<char, Edge*>::iterator it;
+	if (isLeaf()) {
+		leafCount = 1;
+		return;
+	}
 	for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
-		if (it->second->endN->isLeaf()) leafCount++;
-		else {
-			it->second->endN->updateLeafCount();
-			leafCount += it->second->endN->leafCount;
-		}
+		it->second->endN->updateLeafCount();
+		leafCount += it->second->endN->leafCount;
 	}
 }
 

@@ -18,12 +18,9 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <fstream>
 #include "suffix/SuffixTree.h"
 #include "debug.h"
-
-#define BUFFSIZE 5
 
 using namespace std;
 
@@ -51,6 +48,7 @@ int main(int argc, char** argv) {
 		char c;
 		int k;
 		myfile>>k;
+		VAR(k);
 		while (! myfile.eof() && myfile>>c) {
 				c = validateChar(c);
 				if (c != 0) ss<<c;
