@@ -151,6 +151,7 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
 		lastEndN = (*it)->endN;
 	}
 	if (s.length() > ret.length()) ret = s;
+	if (ret[ret.length()-1] == '$') ret = ret.substr(0, ret.length()-1);
 	return ret;
 
 }
