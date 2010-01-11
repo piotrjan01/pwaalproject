@@ -17,7 +17,7 @@
 #ifndef NODE_H_
 #define NODE_H_
 
-#include <map>
+#include <QHash>
 #include <string>
 #include <sstream>
 #include <list>
@@ -53,8 +53,7 @@ public:
 	 * znakiem tekstu odpowiadaj¹cego danej krawêdzi. Przyspisza poruszanie siê
 	 * po drzewie.
 	 */
-	//TODO: make it hashmap
-	map<char, Edge*> nodeEdges;
+        QHash<char, Edge*> nodeEdges;
 
 	/**
 	 * WskaŸnik do wêz³a odpowiadaj¹cego nastêpnemu krótszemu sufiksowi obecnemu w drzewie.

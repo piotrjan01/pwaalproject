@@ -66,7 +66,12 @@ public:
 	/**
 	 * Zwraca fragment tekstu przy krawêdzi
 	 */
-	string getEdgeFullText();
+        string getEdgeText();
+
+        /**
+          Zwraca ca³y tekst od korzenia do tej krawêdzi.
+          */
+        string getEdgeFullText();
 
 	string toString();
 

@@ -53,16 +53,20 @@ int Edge::getPhraseLength() {
 	return this->endInd - this->startInd;
 }
 
-string Edge::getEdgeFullText() {
-	string text = startN->tree->text;
-	int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
-	if (realEnd > (int)text.length()) realEnd = text.length()-1;
-	text = text.substr(this->startInd, realEnd - this->startInd +1);
+string Edge::getEdgeText() {
+        string text = startN->tree->text;
+        int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
+        if (realEnd > (int)text.length()) realEnd = text.length()-1;
+        text = text.substr(this->startInd, realEnd - this->startInd +1);
+        return text;
+}
 
+
+string Edge::getEdgeFullText() {
 	string earlier = "";
 	if (startN->parentEdge != NULL) earlier = startN->parentEdge->getEdgeFullText();
 
-	return earlier+text;
+        return earlier+getEdgeText();
 }
 
 string Edge::toString() {

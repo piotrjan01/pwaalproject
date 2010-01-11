@@ -9,7 +9,6 @@
 
 #include "SuffixTree.h"
 #include <limits.h>
-#include "../debug.h"
 
 
 using namespace std;
