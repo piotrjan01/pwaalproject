@@ -19,8 +19,8 @@ Edge::Edge(int startIndex, int endIndex, Node *startNode) {
 }
 
 Edge::~Edge() {
-	delete this->startN;
-	delete this->endN;
+        //delete this->startN;
+        //delete this->endN;
 }
 
 

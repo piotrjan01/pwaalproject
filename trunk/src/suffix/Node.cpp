@@ -19,8 +19,7 @@ Node::Node(SuffixTree* st, Node* suffixNode, Edge* parentEdge) {
 }
 
 char Node::getCharAt(int ind) {
-	string s = this->tree->text;
-	return s[ind];
+        return this->tree->textArray[ind];
 }
 
 void Node::addEdge(int charIndex, Edge* edge) {
@@ -47,7 +46,11 @@ bool Node::isLeaf() {
 }
 
 Node::~Node() {
-	delete this->suffixNode;
+     /*   QHash<char, Edge*>::iterator it;
+        for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
+            delete it.value();
+        }
+        delete this->suffixNode;*/
 }
 
 void Node::updateLeafCount() {

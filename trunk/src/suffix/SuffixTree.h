@@ -33,6 +33,8 @@ public:
 	 */
 	string text;
 
+        char* textArray;
+
 	/**
 	 * Tworzy drzewo sufiksowe i dodaje do niego podany tekst
 	 */

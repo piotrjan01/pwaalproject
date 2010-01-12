@@ -11,6 +11,7 @@
 #include <limits.h>
 
 
+
 using namespace std;
 
 SuffixTree::SuffixTree(string text) {
@@ -29,7 +30,22 @@ SuffixTree::SuffixTree() {
 }
 
 SuffixTree::~SuffixTree() {
-	delete this->root;
+        list<Node*> an = root->getAllNodes();
+        list<Edge*> ae = root->getAllEdges();
+
+        Edge* e;
+        while ( ! ae.empty() ) {
+            e = ae.front();
+            ae.pop_front();
+            delete e;
+        }
+
+        Node* n;
+        while ( ! an.empty() ) {
+            n = an.front();
+            an.pop_front();
+            delete n;
+        }
 }
 
 
@@ -37,6 +53,7 @@ void SuffixTree::appendText(string t) {
 	if (t == "") return;
 	int oldTextLength = this->text.length();
 	this->text = this->text + t;
+        textArray = (char*)text.c_str();
 	for (unsigned int i=0; i<t.length(); i++) {
 			this->addPrefix(oldTextLength+i);
 	}
@@ -53,7 +70,7 @@ void SuffixTree::addPrefix(int endIndex) {
 
 		if (activePoint->isExplicit()) { //jeœli dodawany sufiks koñczy siê na wêŸle jawnym
 			//spróbuj znaleŸæ krawêdŸ odpowiadaj¹c¹ nowemu znakowi
-			edge = activePoint->originNode->findEdge(this->text[endIndex]);
+                        edge = activePoint->originNode->findEdge(this->textArray[endIndex]);
 			//jeœli znaleziona, to wychodzimy z pêtli
 			if (edge != NULL) {
 				break;
@@ -61,10 +78,10 @@ void SuffixTree::addPrefix(int endIndex) {
 		}
 		else { //punkt aktywny to wêze³ niejawny, czyli sufiks koñczy siê gdzieœ w krawêdzi
 			//znajdŸ krawêdŸ, w której siê koñczy
-			edge = activePoint->originNode->findEdge(this->text[activePoint->startInd]);
+                        edge = activePoint->originNode->findEdge(this->textArray[activePoint->startInd]);
 			int length = activePoint->getPhraseLength();
 			//jeœli dodajemy znak na koniec krawêdzi, to wyjdŸ z while
-			if ( text[edge->startInd + length + 1] == text[endIndex]) {
+                        if ( textArray[edge->startInd + length + 1] == textArray[endIndex]) {
 				break;
 			}
 			//jeœli nie, to trzeba podzieliæ krawêdŸ
