@@ -1,5 +1,4 @@
 #include "executor.h"
-#include <QDebug>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -129,7 +128,6 @@ QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize
         }
 
         time = time/reps;
-//        qDebug()<<"t = "<<time;
         data.push_back(time);
         double comp;
         comp = (i - beginSize)/(endSize - beginSize);
@@ -137,11 +135,8 @@ QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize
         stat->setValue(i);
     }
 
-    qDebug()<<"data size = "<<data.size();
     int mediana = (int)(data.size() / 2.0);
-    qDebug()<<"mediana: "<<mediana;
     double c = data.at(mediana) / (beginSize+mediana*step);
-    qDebug()<<"c: "<<c;
     //make table
     for (int i=0; i<data.size(); i++) {
         int n = (beginSize+i*step);
