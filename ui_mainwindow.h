@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 11. Jan 19:54:56 2010
+** Created: Tue 12. Jan 18:22:47 2010
 **      by: Qt User Interface Compiler version 4.6.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -19,8 +19,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
+#include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
-#include <QtGui/QStatusBar>
 #include <QtGui/QTextBrowser>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QWidget>
@@ -67,13 +67,13 @@ public:
     QLineEdit *k4Gen;
     QTextBrowser *tb;
     QLabel *label_12;
-    QStatusBar *statusBar;
+    QProgressBar *progressBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(871, 575);
+        MainWindow->resize(871, 581);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         groupBox = new QGroupBox(centralWidget);
@@ -196,10 +196,11 @@ public:
         label_12->setFont(font);
         label_12->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
         label_12->setWordWrap(true);
+        progressBar = new QProgressBar(centralWidget);
+        progressBar->setObjectName(QString::fromUtf8("progressBar"));
+        progressBar->setGeometry(QRect(10, 553, 261, 20));
+        progressBar->setValue(0);
         MainWindow->setCentralWidget(centralWidget);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
 

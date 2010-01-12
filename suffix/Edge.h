@@ -40,11 +40,6 @@ public:
 	 */
 	int endInd;
 
-        /**
-         * Indeks pocz¹tkowy w tekœcie wejœciowym odpowiadaj¹cy pocz¹tkowi sufiksa od korzenia do tej krawêdzi.
-         */
-        int fullStartInd;
-
 	Node* startN;
 	Node* endN;
 
