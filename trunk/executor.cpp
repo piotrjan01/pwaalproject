@@ -54,7 +54,6 @@ QString Executor::doSuffixTreeByPath(QString path) {
 }
 
 QString Executor::doSuffixTreeByGivenWord(QString word, int k, QTreeWidgetItem **root) {
-    qDebug()<<"in executor";
     string s = word.toStdString();
     stringstream ss;
     char c;
@@ -64,15 +63,13 @@ QString Executor::doSuffixTreeByGivenWord(QString word, int k, QTreeWidgetItem *
     }
     ss<<"$";
     SuffixTree st(ss.str());
-    qDebug()<<"done making tree!";
     QString ret;
     ret = st.getLongestSubstringWithKRepetitions(k).c_str();
-
-    qDebug()<<"done finding longest...";
-    /*ret = "S³owo wejœciowe: "+word+"\nk: "+QString().setNum(k)+"\nWynik operacji:\n" + ret;
+    word = word.replace(ret, "<font color=#f00>"+ret+"</font>");
+    ret = "S³owo wejœciowe: "+word+"<br>k: "+QString().setNum(k)+"<br>Wynik operacji:<br>" + ret+"<br>";
     *root = new QTreeWidgetItem(QStringList(QString("root")));
-    buildTreeStructure(st.getRoot(), *root);*/
-    return "";
+    buildTreeStructure(st.getRoot(), *root);
+    return ret;
 }
 
 QString Executor::doSuffixTreeByGivenWord(QString word, int k) {
@@ -86,12 +83,13 @@ QString Executor::doSuffixTreeByGivenWord(QString word, int k) {
     ss<<"$";
     SuffixTree st(ss.str());
     QString ret(st.getLongestSubstringWithKRepetitions(k).c_str());
-    ret = "S³owo wejœciowe: "+word+"\nk: "+QString().setNum(k)+"\nWynik operacji:\n" + ret;
+    word = word.replace(ret, "<font color=#f00>"+ret+"</font>");
+    ret = "S³owo wejœciowe: "+word+"<br>k: "+QString().setNum(k)+"<br>Wynik operacji:<br>" + ret+"<br>";
     return ret;
 }
 
 
-QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize, int step, int k, int reps) {
+QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize, int step, int k, int reps, QProgressBar *stat) {
     QString ret = "Proces testowanie czasu wykonania dla ró¿nych rozmiarów problemu\n";
     ret += "Dane wejœciowe:\nRozmiar alfabetu: "+QString().setNum(alfaLength);
     ret += "\nPocz¹tkowy rozmiar problemu: "+QString().setNum(beginSize);
@@ -103,6 +101,9 @@ QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize
     ret += "Rozmiar \t Czas wykonania\t q\n";
 
     QVector<double> data;
+    stat->setMinimum(beginSize);
+    stat->setMaximum(endSize);
+    stat->setValue(beginSize);
 
     Timer t;
     for (int i=beginSize; i<=endSize; i+=step) {
@@ -128,8 +129,12 @@ QString Executor::doSuffixTreeTesting(int alfaLength, int beginSize, int endSize
         }
 
         time = time/reps;
-        qDebug()<<"t = "<<time;
+//        qDebug()<<"t = "<<time;
         data.push_back(time);
+        double comp;
+        comp = (i - beginSize)/(endSize - beginSize);
+
+        stat->setValue(i);
     }
 
     qDebug()<<"data size = "<<data.size();

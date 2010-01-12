@@ -68,6 +68,7 @@ void MainWindow::on_startOwn_clicked()
     ui->tb->setText(result);
     ui->treeWidget->clear();
     ui->treeWidget->addTopLevelItem(r);
+    ui->treeWidget->expandAll();
 }
 
 void MainWindow::on_startGen_clicked()
@@ -97,6 +98,7 @@ void MainWindow::on_startGen_clicked()
 
 void MainWindow::on_startComp_clicked()
 {
+
     bool ok, oka = true;
     int as = ui->alfabetSizeInput->text().toInt(&ok);
     oka = ok && oka;
@@ -119,7 +121,7 @@ void MainWindow::on_startComp_clicked()
     QString time;
     QString res;
     t.start();
-    res += Executor::doSuffixTreeTesting(as, bl, el, ls, k, reps);
+    res += Executor::doSuffixTreeTesting(as, bl, el, ls, k, reps, ui->progressBar);
     time.setNum(t.stop());
     res += "\nCzas wykonania: "+time;
     ui->tb->setText(res);

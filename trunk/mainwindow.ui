@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>871</width>
-    <height>575</height>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -505,8 +505,20 @@ p, li { white-space: pre-wrap; }
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>553</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

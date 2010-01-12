@@ -9,6 +9,7 @@
 
 #include "SuffixTree.h"
 #include <limits.h>
+#include <QDebug>
 
 
 
@@ -142,6 +143,7 @@ string SuffixTree::toString() {
 
 
 string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
+//        qDebug()<<"\n\nstarting...";
 	root->updateLeafCount();
 	list<Edge*> edgs = root->getAllEdges();
 	list<Edge*>::iterator it;
@@ -149,13 +151,21 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
         Edge* longest = NULL;
 	for (it = edgs.begin(); it != edgs.end(); it++) {
 		if ((*it)->endN->leafCount >= k) {
-                        if ((*it)->getFullSuffixLength() > maxL) {
-                            maxL = (*it)->getFullSuffixLength();
+//                    qDebug()<<"considering edge: "<<(*it)->toString().c_str();
+//                    qDebug()<<"\t full suff len:"<<((*it)->getFullSuffixLength()+1);
+//                    qDebug()<<"\t full suff txt:"<<((*it)->getEdgeFullText().c_str());
+                        if ((*it)->getFullSuffixLength()+1 > maxL) {
+                            maxL = (*it)->getFullSuffixLength()+1;
+//                            qDebug()<<"new max: "<<maxL;
                             longest = (*it);
                         }
 		}
 	}
+
         if (longest == NULL) return "";
+//        qDebug()<<"best edge: "<<longest->toString().c_str();
+//        qDebug()<<"full text: "<<longest->getEdgeFullText().c_str();
+
         string ret = longest->getEdgeFullText();
 	if (ret[ret.length()-1] == '$') ret = ret.substr(0, ret.length()-1);
 	return ret;

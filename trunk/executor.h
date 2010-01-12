@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QTreeWidgetItem>
+#include <QProgressBar>
 #include "suffix/Node.h"
 
 class Executor
@@ -15,7 +16,7 @@ public:
     static QString doSuffixTreeByGivenWord(QString word, int k, QTreeWidgetItem **root);
     static QString doSuffixTreeByGivenWord(QString word, int k);
 
-    static QString doSuffixTreeTesting(int alfaLength, int beginSize, int endSize, int step, int k, int reps);
+    static QString doSuffixTreeTesting(int alfaLength, int beginSize, int endSize, int step, int k, int reps, QProgressBar *status);
 
     static char validateChar(char c);
 

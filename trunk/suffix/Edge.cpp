@@ -16,9 +16,6 @@ Edge::Edge(int startIndex, int endIndex, Node *startNode) {
 	this->startN = startNode;
 	this->endN = new Node(startNode->tree, NULL, this);
 	this->insertToParentEdgeList();
-        if (startNode->parentEdge != NULL)
-            this->fullStartInd = startNode->parentEdge->fullStartInd;
-        else this->fullStartInd = startInd;
 }
 
 Edge::~Edge() {
@@ -56,7 +53,15 @@ int Edge::getPhraseLength() {
 }
 
 int Edge::getFullSuffixLength() {
-        return this->endInd - this->fullStartInd;
+    int mtl = startN->tree->text.length();
+
+    int realEnd = (this->endInd < 0 ? mtl : this->endInd);
+    if (realEnd > mtl) realEnd = mtl-1;
+
+    int tt = realEnd - startInd+1;
+    int pt = 0;
+    if (startN->parentEdge != NULL) pt = startN->parentEdge->getFullSuffixLength();
+    return pt+tt;
 }
 
 string Edge::getEdgeText() {
@@ -69,11 +74,10 @@ string Edge::getEdgeText() {
 
 
 string Edge::getEdgeFullText() {
-    string text = startN->tree->text;
-    int realEnd = (this->endInd < 0 ? text.length() : this->endInd);
-    if (realEnd > (int)text.length()) realEnd = text.length()-1;
-    text = text.substr(this->fullStartInd, realEnd - this->startInd +1);
-    return text;
+    string tt = getEdgeText();
+    string pt;
+    if (startN->parentEdge != NULL) pt = startN->parentEdge->getEdgeFullText();
+    return pt+tt;
 }
 
 string Edge::toString() {
