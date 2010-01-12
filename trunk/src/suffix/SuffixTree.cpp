@@ -145,15 +145,18 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
 	root->updateLeafCount();
 	list<Edge*> edgs = root->getAllEdges();
 	list<Edge*>::iterator it;
-	string ret = "";
-	string s = "";
+        int maxL = 0;
+        Edge* longest = NULL;
 	for (it = edgs.begin(); it != edgs.end(); it++) {
 		if ((*it)->endN->leafCount >= k) {
-                        s = (*it)->getEdgeFullText();
-			if (s.length() > ret.length()) ret = s;
+                        if ((*it)->getFullSuffixLength() > maxL) {
+                            maxL = (*it)->getFullSuffixLength();
+                            longest = (*it);
+                        }
 		}
 	}
-	if (ret == "") return ret;
+        if (longest == NULL) return "";
+        string ret = longest->getEdgeFullText();
 	if (ret[ret.length()-1] == '$') ret = ret.substr(0, ret.length()-1);
 	return ret;
 

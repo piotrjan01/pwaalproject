@@ -40,6 +40,11 @@ public:
 	 */
 	int endInd;
 
+        /**
+         * Indeks pocz¹tkowy w tekœcie wejœciowym odpowiadaj¹cy pocz¹tkowi sufiksa od korzenia do tej krawêdzi.
+         */
+        int fullStartInd;
+
 	Node* startN;
 	Node* endN;
 
@@ -48,7 +53,7 @@ public:
 	/**
 	 * Konstruuje i inicjalizuje now¹ krawêdŸ
 	 */
-	Edge(int startIndex, int endIndex, Node* startNode);
+        Edge(int startIndex, int endIndex, Node* startNode);
 
 	virtual ~Edge();
 
@@ -63,6 +68,11 @@ public:
 	 */
 	int getPhraseLength();
 
+        /**
+         * Zwraca d³ugoœæ tekstu od korzenia do tej krawêdzi.
+         */
+        int getFullSuffixLength();
+
 	/**
 	 * Zwraca fragment tekstu przy krawêdzi
 	 */
@@ -74,6 +84,7 @@ public:
         string getEdgeFullText();
 
 	string toString();
+
 
 private:
 
