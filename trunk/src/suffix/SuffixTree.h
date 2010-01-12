@@ -33,6 +33,11 @@ public:
 	 */
 	string text;
 
+        /**
+         * Ten sam tekst wejœciowy co w text, ale w postaci tablicy char-ów.
+         * operator [] dzia³a w czasie sta³ym dla tablicy charów, dlatego ta
+         * reprezentacja jest konieczna.
+         */
         char* textArray;
 
 	/**
@@ -61,6 +66,9 @@ public:
 
 	Node* getRoot() { return root; }
 
+        /**
+         * Zwraca najd³u¿szy fragment tekstu który powtarza siê w nim co najmniej k razy.
+         */
 	string getLongestSubstringWithKRepetitions(int k);
 
 private:

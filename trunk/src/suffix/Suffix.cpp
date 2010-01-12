@@ -17,7 +17,6 @@ Suffix::Suffix(Node* originNode, int startIndex, int endIndex) {
 }
 
 Suffix::~Suffix() {
-	delete this->originNode;
 }
 
 int Suffix::getPhraseLength() {

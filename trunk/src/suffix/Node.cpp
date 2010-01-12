@@ -46,11 +46,7 @@ bool Node::isLeaf() {
 }
 
 Node::~Node() {
-     /*   QHash<char, Edge*>::iterator it;
-        for (it = nodeEdges.begin(); it != nodeEdges.end(); it++) {
-            delete it.value();
-        }
-        delete this->suffixNode;*/
+
 }
 
 void Node::updateLeafCount() {

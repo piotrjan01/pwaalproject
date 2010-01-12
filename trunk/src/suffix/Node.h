@@ -35,7 +35,6 @@ public:
 	/**
 	 * WskaŸnik na drzewo sufiksowe. U¿ywany jedynie do generowanie IDs
 	 */
-	//TODO: static!
 	SuffixTree *tree;
 
 	/**
@@ -44,7 +43,8 @@ public:
 	int id;
 
 	/**
-	 * U¿ywane do zliczania liœci w poddrzewie danego wêz³a
+         * U¿ywane do zliczania liœci w poddrzewie danego wêz³a. Po uruchomieniu updateLeafCount()
+         * powinno zawieraæ iloœæ liœci w poddrzewie tego wêz³a
 	 */
 	int leafCount;
 

@@ -46,6 +46,8 @@ SuffixTree::~SuffixTree() {
             an.pop_front();
             delete n;
         }
+
+        delete this->activePoint;
 }
 
 
@@ -147,15 +149,8 @@ string SuffixTree::getLongestSubstringWithKRepetitions(int k) {
 	string s = "";
 	for (it = edgs.begin(); it != edgs.end(); it++) {
 		if ((*it)->endN->leafCount >= k) {
-			s = (*it)->getEdgeFullText();
+                        s = (*it)->getEdgeFullText();
 			if (s.length() > ret.length()) ret = s;
-		/*	PRN("\n\nEdge");
-			VAR((*it)->toString());
-			VAR((*it)->allStart);
-			VAR((*it)->startInd);
-			VAR((*it)->endInd);
-			VAR(s);
-*/
 		}
 	}
 	if (ret == "") return ret;
