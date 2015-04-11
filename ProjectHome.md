@@ -1,0 +1,1 @@
+In this project I need to implement a suffix tree with online creation following Ukkonen's 1995 algorithm.
